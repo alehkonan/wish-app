@@ -1,11 +1,16 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { Main } from './pages/Main';
+import { Game } from './pages/Game';
+import { Layout } from './layout';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <p>Wish app</p>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Main />} />
+        <Route path="game" element={<Game />} />
+      </Route>
+    </Routes>
   );
 }
-
-export default App;
