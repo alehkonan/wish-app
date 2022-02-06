@@ -6,17 +6,20 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import React, { FC, MouseEvent, useState } from 'react';
+import React, { FC, MouseEvent, useEffect, useState } from 'react';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import { spheres } from '../../data/spheres';
+// import { spheres } from '../../data/spheres';
 import { Sphere, Wish } from '../../types';
+import { useIdb } from '../../context/IdbContext';
 
 type Props = {
   number: number;
   wish: Wish;
 };
 export const WishCard: FC<Props> = ({ number, wish }) => {
+  const db = useIdb();
+  const [spheres, setSpheres] = useState<Sphere[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedSphere, setSelectedSphere] = useState<Sphere | undefined>();
   const open = Boolean(anchorEl);
@@ -27,9 +30,13 @@ export const WishCard: FC<Props> = ({ number, wish }) => {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    db?.getAll('spheres').then((value) => setSpheres(value));
+  }, [db]);
+
   return (
     <Card
-      key={wish.id}
+      // key={wish.id}
       sx={{ display: 'flex', gap: 1, alignItems: 'center', padding: '0 5px' }}
     >
       <Typography>{number}</Typography>
@@ -45,8 +52,8 @@ export const WishCard: FC<Props> = ({ number, wish }) => {
       <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={closeMenu}>
         {spheres.map((sphere) => (
           <MenuItem
-            key={sphere.id}
-            selected={selectedSphere?.id === sphere.id}
+            // key={sphere.id}
+            // selected={selectedSphere?.id === sphere.id}
             onClick={() => selectSphere(sphere)}
           >
             <IconButton

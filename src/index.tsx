@@ -5,12 +5,15 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import { IdbProvider } from './context/IdbContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <StyledEngineProvider injectFirst>
-        <App />
+        <IdbProvider>
+          <App />
+        </IdbProvider>
       </StyledEngineProvider>
     </BrowserRouter>
   </React.StrictMode>,
