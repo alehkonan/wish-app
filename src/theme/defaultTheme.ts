@@ -46,6 +46,13 @@ export const defaultTheme = createTheme({
     },
     action: {
       selected: '#a9c25d',
+      selectedOpacity: 0.2,
+      active: '#39395f',
+      activatedOpacity: 0.2,
+      hover: '#416a59',
+      hoverOpacity: 0.2,
+      focus: '#416a59',
+      focusOpacity: 0.2,
     },
   },
   spacing: 5, // 8px is default
