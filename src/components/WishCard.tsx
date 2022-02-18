@@ -1,17 +1,10 @@
-import {
-  Card,
-  IconButton,
-  Menu,
-  MenuItem,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import React, { FC, MouseEvent, useEffect, useState } from 'react';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-// import { spheres } from '../../data/spheres';
-import { Sphere, Wish } from '../../types';
-import { useIdb } from '../../context/IdbContext';
+import { Sphere, Wish } from '../types';
+import { useIdb } from '../context/IdbContext';
+import { CardStyles } from '../styles/CardStyles';
 
 type Props = {
   number: number;
@@ -35,12 +28,12 @@ export const WishCard: FC<Props> = ({ number, wish }) => {
   }, [db]);
 
   return (
-    <Card
-      // key={wish.id}
-      sx={{ display: 'flex', gap: 1, alignItems: 'center', padding: '0 5px' }}
-    >
+    <CardStyles>
       <Typography>{number}</Typography>
       <Typography sx={{ flex: 1 }}>{wish.text}</Typography>
+      <IconButton>
+        <EditRoundedIcon />
+      </IconButton>
       <Tooltip title={selectedSphere ? selectedSphere.name : 'Выберите сферу'}>
         <IconButton
           sx={{ bgcolor: selectedSphere?.color, border: '1px solid' }}
@@ -52,7 +45,7 @@ export const WishCard: FC<Props> = ({ number, wish }) => {
       <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={closeMenu}>
         {spheres.map((sphere) => (
           <MenuItem
-            // key={sphere.id}
+            key={sphere.name}
             // selected={selectedSphere?.id === sphere.id}
             onClick={() => selectSphere(sphere)}
           >
@@ -65,12 +58,10 @@ export const WishCard: FC<Props> = ({ number, wish }) => {
           </MenuItem>
         ))}
       </Menu>
-      <IconButton>
-        <EditRoundedIcon />
-      </IconButton>
+
       <IconButton>
         <DeleteRoundedIcon />
       </IconButton>
-    </Card>
+    </CardStyles>
   );
 };

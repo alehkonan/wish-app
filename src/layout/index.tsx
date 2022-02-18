@@ -25,7 +25,7 @@ export const Layout: FC = () => {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, zIndex: 1200 }}
             onClick={() => setMenuOpen(true)}
           >
             <MenuIcon />
@@ -43,14 +43,14 @@ export const Layout: FC = () => {
       >
         <Box sx={{ width: 250 }} onClick={() => setMenuOpen(false)}>
           <List>
-            <Link to="/">
+            <Link to="/" style={{ textDecoration: 'none' }}>
               <ListItemButton selected={pathname === '/'}>
-                <ListItemText primary="Main" />
+                <ListItemText primary="Главная" />
               </ListItemButton>
             </Link>
             <Link to="game">
               <ListItemButton selected={pathname === '/game'}>
-                <ListItemText primary="Game" />
+                <ListItemText primary="Игра" />
               </ListItemButton>
             </Link>
           </List>

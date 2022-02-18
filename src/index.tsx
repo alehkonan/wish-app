@@ -1,20 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import StyledEngineProvider from '@mui/material/StyledEngineProvider';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { IdbProvider } from './context/IdbContext';
+import { ThemeProvider } from '@mui/material';
+import { defaultTheme } from './theme/defaultTheme';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={defaultTheme}>
         <IdbProvider>
           <App />
         </IdbProvider>
-      </StyledEngineProvider>
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

@@ -1,4 +1,10 @@
-import { createContext, ReactElement, useContext, useState } from 'react';
+import {
+  createContext,
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { DBSchema, IDBPDatabase, openDB } from 'idb';
 import { Sphere, Wish } from '../types';
 
@@ -40,7 +46,9 @@ const Idb = createContext<IDBPDatabase<IdbSchema> | null>(null);
 export const IdbProvider = ({ children }: { children: ReactElement }) => {
   const [db, setDb] = useState<IDBPDatabase<IdbSchema> | null>(null);
 
-  createWishDb().then((wishDb) => setDb(wishDb));
+  useEffect(() => {
+    createWishDb().then((wishDb) => setDb(wishDb));
+  }, []);
 
   return <Idb.Provider value={db}>{children}</Idb.Provider>;
 };

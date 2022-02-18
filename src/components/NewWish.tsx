@@ -1,18 +1,11 @@
 import React, { FC, MouseEvent, FormEvent, useEffect, useState } from 'react';
-import { Sphere, Wish } from '../../types';
-import {
-  IconButton,
-  Menu,
-  MenuItem,
-  Tooltip,
-  Typography,
-  Paper,
-  InputBase,
-} from '@mui/material';
+import { Sphere, Wish } from '../types';
+import { IconButton, Menu, MenuItem, Tooltip, InputBase } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useIdb } from '../../context/IdbContext';
+import { useIdb } from '../context/IdbContext';
+import { CardStyles } from '../styles/CardStyles';
 
-export const AddWishForm: FC = () => {
+export const NewWish: FC = () => {
   const db = useIdb();
   const [spheres, setSpheres] = useState<Sphere[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -43,18 +36,15 @@ export const AddWishForm: FC = () => {
   };
 
   return (
-    <Paper>
+    <CardStyles>
       <form
         noValidate
         onSubmit={onSubmit}
         style={{
           display: 'flex',
-          gap: 1,
-          alignItems: 'center',
-          padding: '0 5px',
+          width: '100%',
         }}
       >
-        <Typography>{10}</Typography>
         <InputBase
           style={{ flex: 1 }}
           value={wish.text}
@@ -63,39 +53,34 @@ export const AddWishForm: FC = () => {
             setWish((prev) => ({ ...prev, text: e.target.value }))
           }
         />
-        <Tooltip title={wish.sphere ? wish.sphere : 'Выберите сферу'}>
-          <IconButton
-            sx={{ bgcolor: selectedSphere?.color, border: '1px solid' }}
-            size="large"
-            disableRipple
-            onClick={openMenu}
-          />
-        </Tooltip>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={closeMenu}
-        >
-          {spheres.map((sphere, index) => (
-            <MenuItem
-              key={index}
-              // selected={selectedSphere?.id === sphere.id}
-              onClick={() => selectSphere(sphere)}
-            >
-              <IconButton
-                sx={{ bgcolor: sphere.color, mr: '5px' }}
-                size="medium"
-                disableRipple
-              />
-              {sphere.name}
-            </MenuItem>
-          ))}
-        </Menu>
-        <IconButton type="submit">
-          <AddIcon />
-        </IconButton>
       </form>
-    </Paper>
+      <Tooltip title={wish.sphere ? wish.sphere : 'Выберите сферу'}>
+        <IconButton
+          sx={{ bgcolor: selectedSphere?.color, border: '1px solid' }}
+          size="large"
+          disableRipple
+          onClick={openMenu}
+        />
+      </Tooltip>
+      <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={closeMenu}>
+        {spheres.map((sphere, index) => (
+          <MenuItem
+            key={index}
+            // selected={selectedSphere?.id === sphere.id}
+            onClick={() => selectSphere(sphere)}
+          >
+            <IconButton
+              sx={{ bgcolor: sphere.color, mr: '5px' }}
+              size="medium"
+              disableRipple
+            />
+            {sphere.name}
+          </MenuItem>
+        ))}
+      </Menu>
+      <IconButton type="submit">
+        <AddIcon />
+      </IconButton>
+    </CardStyles>
   );
 };
