@@ -5,7 +5,11 @@ import AddIcon from '@mui/icons-material/Add';
 import { useIdb } from '../context/IdbContext';
 import { CardStyles } from '../styles/CardStyles';
 
-export const NewWish: FC = () => {
+type Props = {
+  onWishAdded: () => void;
+};
+
+export const NewWish: FC<Props> = ({ onWishAdded }) => {
   const db = useIdb();
   const [spheres, setSpheres] = useState<Sphere[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -26,20 +30,21 @@ export const NewWish: FC = () => {
     db?.getAll('spheres').then((value) => setSpheres(value));
   }, [db]);
 
-  const onSubmit = async (e: FormEvent) => {
+  const addWishToDb = async (e: FormEvent) => {
     e.preventDefault();
     await db?.add('wishes', wish);
     setWish({
       text: '',
       sphere: null,
     });
+    onWishAdded();
   };
 
   return (
     <CardStyles>
       <form
         noValidate
-        onSubmit={onSubmit}
+        onSubmit={addWishToDb}
         style={{
           display: 'flex',
           width: '100%',
@@ -78,7 +83,7 @@ export const NewWish: FC = () => {
           </MenuItem>
         ))}
       </Menu>
-      <IconButton type="submit">
+      <IconButton onClick={addWishToDb}>
         <AddIcon />
       </IconButton>
     </CardStyles>

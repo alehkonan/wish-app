@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
 
-export const Game: FC = () => {
+export const GamePage: FC = () => {
   return <div>Game page</div>;
 };

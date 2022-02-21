@@ -1,18 +1,24 @@
 import { Box } from '@mui/material';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { NewWish } from '../components/NewWish';
 import { WishCard } from '../components/WishCard';
 import { useIdb } from '../context/IdbContext';
 import { Title } from '../styles/Title';
 import { Wish } from '../types';
 
-export const Wishes: FC = () => {
+export const WishesWidget: FC = () => {
   const idb = useIdb();
   const [wishes, setWishes] = useState<Wish[]>([]);
 
-  useEffect(() => {
-    idb?.getAll('wishes').then((value) => setWishes(value));
+  const getWishes = useCallback(async () => {
+    if (!idb) return;
+    const result = await idb.getAll('wishes');
+    setWishes(result);
   }, [idb]);
+
+  useEffect(() => {
+    getWishes();
+  }, [getWishes]);
 
   return (
     <Box>
@@ -21,7 +27,7 @@ export const Wishes: FC = () => {
         {wishes.map((wish, index) => (
           <WishCard key={index} number={index + 1} wish={wish} />
         ))}
-        <NewWish />
+        <NewWish onWishAdded={getWishes} />
       </Box>
     </Box>
   );

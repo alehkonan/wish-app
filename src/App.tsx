@@ -1,15 +1,21 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Main } from './pages/Main';
-import { Game } from './pages/Game';
+import { WishesPage } from './pages/Wishes';
+import { GamePage } from './pages/Game';
 import { Layout } from './layout';
+import { SpheresPage } from './pages/Spheres';
+import { InfoPage } from './pages/Info';
+import { Endpoint } from './utils/endpoints';
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Main />} />
-        <Route path="game" element={<Game />} />
+      <Route path={Endpoint.Root} element={<Layout />}>
+        <Route index element={<WishesPage />} />
+        <Route path={Endpoint.Wishes} element={<WishesPage />} />
+        <Route path={Endpoint.Spheres} element={<SpheresPage />} />
+        <Route path={Endpoint.Game} element={<GamePage />} />
+        <Route path={Endpoint.Info} element={<InfoPage />} />
       </Route>
     </Routes>
   );

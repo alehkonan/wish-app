@@ -6,7 +6,7 @@ import { useIdb } from '../context/IdbContext';
 import { Title } from '../styles/Title';
 import { Sphere } from '../types';
 
-export const Spheres: FC = () => {
+export const SpheresWidget: FC = () => {
   const idb = useIdb();
   const [spheres, setSpheres] = useState<Sphere[]>([]);
 
