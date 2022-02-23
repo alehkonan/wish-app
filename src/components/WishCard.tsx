@@ -15,7 +15,7 @@ export const WishCard: FC<Props> = ({ number, wish }) => {
   return (
     <CardStyles>
       <Typography>{number}.</Typography>
-      <EditableText sx={{ flex: 1, cursor: 'pointer' }} text={wish.text} />
+      <EditableText sx={{ flex: 1, cursor: 'text' }} text={wish.text} />
       <SphereMenu sphere={wish.sphere} />
       <IconButton>
         <RemoveIcon />

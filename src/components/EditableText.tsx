@@ -6,7 +6,7 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import React, { FC, useState, TouchEvent, useEffect, useRef } from 'react';
+import React, { FC, useState, useEffect, MouseEvent } from 'react';
 
 type Props = {
   text: string;
@@ -23,33 +23,22 @@ export const EditableText: FC<Props> = ({ text, ...props }) => {
   const [cursorPosition, setCursorPosition] = useState<CursorPosition>();
   const [isEditMode, setEditMode] = useState(false);
   const [editableText, setEditableText] = useState(text);
-  const timeoutRef = useRef<NodeJS.Timeout>();
 
-  const onTouchStart = (event: TouchEvent) => {
-    timeoutRef.current = setTimeout(() => {
-      console.log('timeout done');
-    }, 1000);
-    event.cancelable && event.preventDefault();
-    const touch = event.touches[0];
-    const { clientX: left, clientY: top } = touch;
+  const onContextMenu = (event: MouseEvent) => {
+    event.preventDefault();
+    const { clientX: left, clientY: top } = event;
     setCursorPosition(cursorPosition ? undefined : { top, left });
   };
 
-  const onTouchEnd = (evant: TouchEvent) => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+  const handleClose = () => {
+    setCursorPosition(undefined);
+    setTimeout(() => setEditMode(true), 0);
   };
-
-  const handleClose = () => setCursorPosition(undefined);
 
   useEffect(() => setEditableText(text), [text]);
 
   return (
-    <Box
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
-      onContextMenu={() => console.log('this is context menu')}
-      {...props}
-    >
+    <Box onContextMenu={onContextMenu} {...props}>
       {isEditMode ? (
         <InputBase
           fullWidth
@@ -60,11 +49,7 @@ export const EditableText: FC<Props> = ({ text, ...props }) => {
           onBlur={() => setEditMode(false)}
         />
       ) : (
-        <Typography
-          onClick={() => {
-            setEditMode(true);
-          }}
-        >
+        <Typography onClick={() => setEditMode(true)}>
           {editableText}
         </Typography>
       )}
