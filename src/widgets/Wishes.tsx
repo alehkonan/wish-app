@@ -1,12 +1,11 @@
-import { Box, IconButton, Tooltip } from '@mui/material';
+import { Box } from '@mui/material';
 import React, { FC, useCallback, useEffect, useState } from 'react';
+import { DeleteDbButton } from '../components/DeleteDbButton';
 import { NewWish } from '../components/NewWish';
 import { WishCard } from '../components/WishCard';
 import { useIdb } from '../context/IdbContext';
 import { Title } from '../styles/Title';
 import { Wish } from '../types';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import { deleteDB } from 'idb';
 
 export const WishesWidget: FC = () => {
   const idb = useIdb();
@@ -36,19 +35,7 @@ export const WishesWidget: FC = () => {
         ))}
         <NewWish onWishAdded={getWishes} />
       </Box>
-      <Tooltip title="Очистить базу данных" placement="left">
-        <IconButton
-          size="large"
-          sx={{
-            position: 'fixed',
-            bottom: 1,
-            right: 1,
-          }}
-          onClick={() => deleteDB('wish-db')}
-        >
-          <DeleteRoundedIcon />
-        </IconButton>
-      </Tooltip>
+      <DeleteDbButton />
     </Box>
   );
 };
