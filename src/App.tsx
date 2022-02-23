@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { WishesPage } from './pages/Wishes';
 import { GamePage } from './pages/Game';
 import { Layout } from './layout';
@@ -11,7 +11,7 @@ export default function App() {
   return (
     <Routes>
       <Route path={Endpoint.Root} element={<Layout />}>
-        <Route index element={<WishesPage />} />
+        <Route index element={<Navigate to={Endpoint.Wishes} />} />
         <Route path={Endpoint.Wishes} element={<WishesPage />} />
         <Route path={Endpoint.Spheres} element={<SpheresPage />} />
         <Route path={Endpoint.Game} element={<GamePage />} />

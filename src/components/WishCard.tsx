@@ -1,11 +1,12 @@
-import { IconButton, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import React, { FC } from 'react';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { Wish } from '../types';
-import { CardStyles } from '../styles/CardStyles';
+import { CardStyles } from '../styles/Card';
 import { SphereMenu } from './SphereMenu';
 import { EditableText } from './EditableText';
 import { useIdb } from '../context/IdbContext';
+import { StyledIconButton } from '../styles/IconButton';
 
 type Props = {
   number: number;
@@ -38,9 +39,9 @@ export const WishCard: FC<Props> = ({ number, wish, onWishChanged }) => {
         sphere={wish.sphere}
         onSphereChanged={(sphere) => updateWish({ sphere })}
       />
-      <IconButton onClick={deleteWish}>
+      <StyledIconButton onClick={deleteWish}>
         <RemoveIcon />
-      </IconButton>
+      </StyledIconButton>
     </CardStyles>
   );
 };

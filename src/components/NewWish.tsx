@@ -1,11 +1,12 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { Sphere, Wish } from '../types';
-import { IconButton, InputBase } from '@mui/material';
+import { InputBase } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useIdb } from '../context/IdbContext';
-import { CardStyles } from '../styles/CardStyles';
+import { CardStyles } from '../styles/Card';
 import { v1 as uuid } from 'uuid';
 import { SphereMenu } from './SphereMenu';
+import { StyledIconButton } from '../styles/IconButton';
 
 type Props = {
   onWishAdded: () => void;
@@ -54,9 +55,9 @@ export const NewWish: FC<Props> = ({ onWishAdded }) => {
           setWish((prev) => ({ ...prev, sphere }))
         }
       />
-      <IconButton onClick={addWishToDb}>
+      <StyledIconButton size="medium" onClick={addWishToDb}>
         <AddIcon />
-      </IconButton>
+      </StyledIconButton>
     </CardStyles>
   );
 };

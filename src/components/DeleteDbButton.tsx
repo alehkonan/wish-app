@@ -1,8 +1,9 @@
-import { IconButton, Tooltip, useMediaQuery } from '@mui/material';
+import { Tooltip, useMediaQuery } from '@mui/material';
 import { deleteDB } from 'idb';
 import React, { FC } from 'react';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { Theme } from '@mui/system';
+import { StyledIconButton } from '../styles/IconButton';
 
 export const DeleteDbButton: FC = () => {
   const isMobile = useMediaQuery((theme: Theme) =>
@@ -11,7 +12,7 @@ export const DeleteDbButton: FC = () => {
 
   return (
     <Tooltip title="Очистить базу данных" placement="left">
-      <IconButton
+      <StyledIconButton
         size="large"
         sx={{
           position: 'fixed',
@@ -21,7 +22,7 @@ export const DeleteDbButton: FC = () => {
         onClick={() => deleteDB('wish-db')}
       >
         <DeleteRoundedIcon />
-      </IconButton>
+      </StyledIconButton>
     </Tooltip>
   );
 };

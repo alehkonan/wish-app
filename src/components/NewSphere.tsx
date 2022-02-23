@@ -1,11 +1,12 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { Sphere } from '../types';
 import { useIdb } from '../context/IdbContext';
-import { CardStyles } from '../styles/CardStyles';
-import { IconButton, InputBase } from '@mui/material';
+import { CardStyles } from '../styles/Card';
+import { InputBase } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { v1 as uuid } from 'uuid';
 import { ColorPicker } from './ColorPicker';
+import { StyledIconButton } from '../styles/IconButton';
 
 type Props = {
   onSphereAdd: () => void;
@@ -21,7 +22,7 @@ export const NewSphere: FC<Props> = ({ onSphereAdd }) => {
   const db = useIdb();
   const [sphere, setSphere] = useState<Sphere>(emptySphere);
 
-  const onSubmit = async (e: FormEvent) => {
+  const addSphereToDb = async (e: FormEvent) => {
     e.preventDefault();
     if (!sphere.name.trim()) return;
     setSphere(emptySphere);
@@ -33,7 +34,7 @@ export const NewSphere: FC<Props> = ({ onSphereAdd }) => {
     <CardStyles>
       <form
         noValidate
-        onSubmit={onSubmit}
+        onSubmit={addSphereToDb}
         style={{
           display: 'flex',
           width: '100%',
@@ -52,9 +53,9 @@ export const NewSphere: FC<Props> = ({ onSphereAdd }) => {
         color={sphere.color}
         onColorChanged={(color) => setSphere((prev) => ({ ...prev, color }))}
       />
-      <IconButton type="submit">
+      <StyledIconButton onClick={addSphereToDb}>
         <AddIcon />
-      </IconButton>
+      </StyledIconButton>
     </CardStyles>
   );
 };

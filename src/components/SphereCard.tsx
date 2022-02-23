@@ -1,11 +1,11 @@
-import { IconButton } from '@mui/material';
 import React, { FC } from 'react';
 import { useIdb } from '../context/IdbContext';
-import { CardStyles } from '../styles/CardStyles';
+import { CardStyles } from '../styles/Card';
 import { Sphere } from '../types';
 import { EditableText } from './EditableText';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { ColorPicker } from './ColorPicker';
+import { StyledIconButton } from '../styles/IconButton';
 
 type Props = {
   sphere: Sphere;
@@ -35,9 +35,9 @@ export const SphereCard: FC<Props> = ({ sphere, onSphereChange }) => {
         color={sphere.color}
         onColorChanged={(color) => updateSphere({ color })}
       />
-      <IconButton onClick={deleteSphere}>
+      <StyledIconButton onClick={deleteSphere}>
         <RemoveIcon />
-      </IconButton>
+      </StyledIconButton>
     </CardStyles>
   );
 };
