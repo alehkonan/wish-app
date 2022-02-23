@@ -6,6 +6,7 @@ import { useIdb } from '../context/IdbContext';
 import { Title } from '../styles/Title';
 import { Wish } from '../types';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import { deleteDB } from 'idb';
 
 export const WishesWidget: FC = () => {
   const idb = useIdb();
@@ -43,6 +44,7 @@ export const WishesWidget: FC = () => {
             bottom: 1,
             right: 1,
           }}
+          onClick={() => deleteDB('wish-db')}
         >
           <DeleteRoundedIcon />
         </IconButton>
