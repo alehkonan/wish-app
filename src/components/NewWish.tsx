@@ -4,9 +4,16 @@ import { IconButton, Menu, MenuItem, Tooltip, InputBase } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useIdb } from '../context/IdbContext';
 import { CardStyles } from '../styles/CardStyles';
+import { v1 as uuid } from 'uuid';
 
 type Props = {
   onWishAdded: () => void;
+};
+
+const emptyWish: Wish = {
+  id: '',
+  text: '',
+  sphere: null,
 };
 
 export const NewWish: FC<Props> = ({ onWishAdded }) => {
@@ -21,10 +28,7 @@ export const NewWish: FC<Props> = ({ onWishAdded }) => {
     setSelectedSphere(sphere);
     setAnchorEl(null);
   };
-  const [wish, setWish] = useState<Wish>({
-    text: '',
-    sphere: null,
-  });
+  const [wish, setWish] = useState<Wish>(emptyWish);
 
   useEffect(() => {
     db?.getAll('spheres').then((value) => setSpheres(value));
@@ -32,11 +36,9 @@ export const NewWish: FC<Props> = ({ onWishAdded }) => {
 
   const addWishToDb = async (e: FormEvent) => {
     e.preventDefault();
-    await db?.add('wishes', wish);
-    setWish({
-      text: '',
-      sphere: null,
-    });
+    if (!wish.text.trim()) return;
+    await db?.add('wishes', { ...wish, id: uuid() });
+    setWish(emptyWish);
     onWishAdded();
   };
 

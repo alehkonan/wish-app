@@ -1,4 +1,5 @@
 export type Wish = {
+  id: string;
   text: string;
   sphere: Sphere | null;
 };

@@ -17,11 +17,8 @@ interface IdbSchema extends DBSchema {
     };
   };
   wishes: {
-    key: number;
+    key: string;
     value: Wish;
-    indexes: {
-      'by-price': number;
-    };
   };
 }
 
@@ -35,7 +32,7 @@ const createWishDb = () =>
       }
       if (!db.objectStoreNames.contains('wishes')) {
         db.createObjectStore('wishes', {
-          autoIncrement: true,
+          keyPath: 'id',
         });
       }
     },

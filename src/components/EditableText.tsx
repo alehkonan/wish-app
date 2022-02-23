@@ -10,6 +10,7 @@ import React, { FC, useState, useEffect, MouseEvent } from 'react';
 
 type Props = {
   text: string;
+  onTextUpdate: (text?: string) => void;
 } & BoxProps;
 
 type CursorPosition =
@@ -19,7 +20,7 @@ type CursorPosition =
     }
   | undefined;
 
-export const EditableText: FC<Props> = ({ text, ...props }) => {
+export const EditableText: FC<Props> = ({ text, onTextUpdate, ...props }) => {
   const [cursorPosition, setCursorPosition] = useState<CursorPosition>();
   const [isEditMode, setEditMode] = useState(false);
   const [editableText, setEditableText] = useState(text);
@@ -37,6 +38,11 @@ export const EditableText: FC<Props> = ({ text, ...props }) => {
 
   useEffect(() => setEditableText(text), [text]);
 
+  const updateText = () => {
+    setEditMode(false);
+    onTextUpdate(editableText);
+  };
+
   return (
     <Box onContextMenu={onContextMenu} {...props}>
       {isEditMode ? (
@@ -45,8 +51,8 @@ export const EditableText: FC<Props> = ({ text, ...props }) => {
           autoFocus
           value={editableText}
           onChange={(e) => setEditableText(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && setEditMode(false)}
-          onBlur={() => setEditMode(false)}
+          onKeyDown={(e) => e.key === 'Enter' && updateText()}
+          onBlur={() => updateText()}
         />
       ) : (
         <Typography onClick={() => setEditMode(true)}>

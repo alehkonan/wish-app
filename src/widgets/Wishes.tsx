@@ -25,7 +25,12 @@ export const WishesWidget: FC = () => {
       <Title variant="h5">Желания</Title>
       <Box display="grid">
         {wishes.map((wish, index) => (
-          <WishCard key={index} number={index + 1} wish={wish} />
+          <WishCard
+            key={wish.id}
+            number={index + 1}
+            wish={wish}
+            onWishChanged={getWishes}
+          />
         ))}
         <NewWish onWishAdded={getWishes} />
       </Box>
