@@ -1,3 +1,4 @@
+import React, { FC, useState, useEffect, MouseEvent } from 'react';
 import {
   Box,
   BoxProps,
@@ -6,7 +7,6 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import React, { FC, useState, useEffect, MouseEvent } from 'react';
 
 type Props = {
   text: string;
@@ -40,7 +40,7 @@ export const EditableText: FC<Props> = ({ text, onTextUpdate, ...props }) => {
 
   const updateText = () => {
     setEditMode(false);
-    onTextUpdate(editableText);
+    if (editableText !== text) onTextUpdate(editableText);
   };
 
   return (

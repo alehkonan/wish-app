@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { NewSphere } from '../components/NewSphere';
 import { SphereCard } from '../components/SphereCard';
 import { useIdb } from '../context/IdbContext';
@@ -10,18 +10,28 @@ export const SpheresWidget: FC = () => {
   const idb = useIdb();
   const [spheres, setSpheres] = useState<Sphere[]>([]);
 
-  useEffect(() => {
-    idb?.getAll('spheres').then((value) => setSpheres(value));
+  const getSpheres = useCallback(async () => {
+    if (!idb) return;
+    const result = await idb?.getAll('spheres');
+    setSpheres(result);
   }, [idb]);
+
+  useEffect(() => {
+    getSpheres();
+  }, [getSpheres]);
 
   return (
     <Box>
       <Title variant="h5">Сферы</Title>
       <Box display="grid">
-        {spheres.map((sphere, index) => (
-          <SphereCard key={index} sphere={sphere} />
+        {spheres.map((sphere) => (
+          <SphereCard
+            key={sphere.id}
+            sphere={sphere}
+            onSphereChange={getSpheres}
+          />
         ))}
-        <NewSphere />
+        <NewSphere onSphereAdd={getSpheres} />
       </Box>
     </Box>
   );

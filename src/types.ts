@@ -5,6 +5,7 @@ export type Wish = {
 };
 
 export type Sphere = {
+  id: string;
   name: string;
   color: string;
 };

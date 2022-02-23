@@ -16,11 +16,9 @@ type Props = {
 export const WishCard: FC<Props> = ({ number, wish, onWishChanged }) => {
   const idb = useIdb();
 
-  const updateWish = async (text?: string) => {
-    if (text) {
-      await idb?.put('wishes', { ...wish, text });
-      onWishChanged();
-    }
+  const updateWish = async (updatedWish: Partial<Wish>) => {
+    await idb?.put('wishes', { ...wish, ...updatedWish });
+    onWishChanged();
   };
 
   const deleteWish = async () => {
@@ -34,9 +32,12 @@ export const WishCard: FC<Props> = ({ number, wish, onWishChanged }) => {
       <EditableText
         sx={{ flex: 1, cursor: 'text' }}
         text={wish.text}
-        onTextUpdate={updateWish}
+        onTextUpdate={(text) => updateWish({ text })}
       />
-      <SphereMenu sphere={wish.sphere} />
+      <SphereMenu
+        sphere={wish.sphere}
+        onSphereChanged={(sphere) => updateWish({ sphere })}
+      />
       <IconButton onClick={deleteWish}>
         <RemoveIcon />
       </IconButton>

@@ -10,11 +10,8 @@ import { Sphere, Wish } from '../types';
 
 interface IdbSchema extends DBSchema {
   spheres: {
-    key: number;
+    key: string;
     value: Sphere;
-    indexes: {
-      'by-price': number;
-    };
   };
   wishes: {
     key: string;
@@ -27,7 +24,7 @@ const createWishDb = () =>
     upgrade(db) {
       if (!db.objectStoreNames.contains('spheres')) {
         db.createObjectStore('spheres', {
-          autoIncrement: true,
+          keyPath: 'id',
         });
       }
       if (!db.objectStoreNames.contains('wishes')) {

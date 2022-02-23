@@ -5,19 +5,26 @@ import { Sphere } from '../types';
 
 type Props = {
   sphere: Sphere | null;
+  onSphereChanged: (sphere: Sphere) => void;
 };
 
-export const SphereMenu: FC<Props> = ({ sphere }) => {
+export const SphereMenu: FC<Props> = ({
+  sphere: selectedSphere,
+  onSphereChanged,
+}) => {
   const db = useIdb();
   const [spheres, setSpheres] = useState<Sphere[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedSphere, setSelectedSphere] = useState<Sphere | undefined>();
   const open = Boolean(anchorEl);
+
   const openMenu = (e: MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget);
   const closeMenu = () => setAnchorEl(null);
   const selectSphere = (sphere: Sphere) => {
-    setSelectedSphere(sphere);
-    setAnchorEl(null);
+    closeMenu();
+    if (sphere.id !== selectedSphere?.id) {
+      console.log('changing sphere');
+      onSphereChanged(sphere);
+    }
   };
 
   useEffect(() => {
@@ -38,7 +45,7 @@ export const SphereMenu: FC<Props> = ({ sphere }) => {
         {spheres.map((sphere) => (
           <MenuItem
             key={sphere.name}
-            // selected={selectedSphere?.id === sphere.id}
+            selected={selectedSphere?.id === sphere.id}
             onClick={() => selectSphere(sphere)}
           >
             <IconButton

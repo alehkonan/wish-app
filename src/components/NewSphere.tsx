@@ -4,17 +4,29 @@ import { useIdb } from '../context/IdbContext';
 import { CardStyles } from '../styles/CardStyles';
 import { IconButton, InputBase } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { v1 as uuid } from 'uuid';
+import { ColorPicker } from './ColorPicker';
 
-export const NewSphere: FC = () => {
+type Props = {
+  onSphereAdd: () => void;
+};
+
+const emptySphere = {
+  id: '',
+  name: '',
+  color: '#ffffff',
+};
+
+export const NewSphere: FC<Props> = ({ onSphereAdd }) => {
   const db = useIdb();
-  const [sphere, setSphere] = useState<Omit<Sphere, 'id'>>({
-    name: '',
-    color: '',
-  });
+  const [sphere, setSphere] = useState<Sphere>(emptySphere);
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    await db?.add('spheres', sphere);
+    if (!sphere.name.trim()) return;
+    setSphere(emptySphere);
+    await db?.add('spheres', { ...sphere, id: uuid() });
+    onSphereAdd();
   };
 
   return (
@@ -35,10 +47,14 @@ export const NewSphere: FC = () => {
             setSphere((prev) => ({ ...prev, name: e.target.value }))
           }
         />
-        <IconButton type="submit">
-          <AddIcon />
-        </IconButton>
       </form>
+      <ColorPicker
+        color={sphere.color}
+        onColorChanged={(color) => setSphere((prev) => ({ ...prev, color }))}
+      />
+      <IconButton type="submit">
+        <AddIcon />
+      </IconButton>
     </CardStyles>
   );
 };
